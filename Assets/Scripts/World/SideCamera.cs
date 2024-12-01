@@ -16,6 +16,5 @@ public class SideCamera : MonoBehaviour
     {
         Vector3 pos = transform.position;
         pos.x = Mathf.Max(pos.x, player.position.x);
-        transform.position = Vector3.Lerp(transform.position, new Vector3(pos.x, transform.position.y, transform.position.z), GameManager.lerpTime);
     }
 }

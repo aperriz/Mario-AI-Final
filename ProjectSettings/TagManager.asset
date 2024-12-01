@@ -11,6 +11,8 @@ TagManager:
   - Pipe
   - Enemy
   - Checkpoint
+  - PowerupBlock
+  - Hole
   layers:
   - Default
   - TransparentFX
@@ -23,7 +25,7 @@ TagManager:
   - Shell
   - Ground
   - Checkpoint
-  - 
+  - Background
   - 
   - 
   - 

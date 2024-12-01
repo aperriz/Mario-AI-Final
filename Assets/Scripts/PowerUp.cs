@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.MLAgents;
 using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
     public GameObject playerWhoCanCollect;
 
+    public GameManager gm;
+
     private void Awake()
     {
-        GameManager.powerUps.Add(gameObject);
+        StartCoroutine(SetVars());
     }
 
     public enum Type
@@ -53,8 +56,16 @@ public class PowerUp : MonoBehaviour
                 player.Starpower();
                 break;
         }
-        GameManager.powerUps.Remove(gameObject);
+        gm.powerUps.Remove(gameObject);
         player.powerups++;
         Destroy(gameObject);
+    }
+
+    public IEnumerator SetVars()
+    {
+        yield return new WaitForSeconds(0.01f);
+        gm = transform.parent.GetComponent<MarioAgent>().gm;
+        //Debug.Log(transform.parent.name);
+        gm.powerUps.Add(gameObject);
     }
 }

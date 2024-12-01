@@ -16,8 +16,7 @@ GameObject:
   - component: {fileID: 9028406633715314806}
   - component: {fileID: 8064172156541931817}
   - component: {fileID: 5746899244029580273}
-  - component: {fileID: 8415403693537750534}
-  - component: {fileID: 1841550158760560648}
+  - component: {fileID: 8839030247972717459}
   m_Layer: 3
   m_Name: Mario
   m_TagString: Player
@@ -120,12 +119,15 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
+  gm: {fileID: 0}
+  par: 0
   flag: {fileID: 0}
   bigRenderer: {fileID: 1109544644287050182}
   smallRenderer: {fileID: 5824298929761322370}
   trainingMode: 0
   checkpointsHit: 0
   tick: 0
+  cumulativeScore: 0
   bigAnimator: {fileID: 0}
   smallAnimator: {fileID: 0}
   _activeAnimator: {fileID: 0}
@@ -159,6 +161,7 @@ MonoBehaviour:
   jumpHeight: 5
   jumpTime: 1
   jumpCount: 0
+  moved: 0
   againstWall: 0
   jumpAction: {fileID: -3133987510807810058, guid: 3c9dfed193d0fe74f8b39ea594f1c647, type: 3}
   moveAction: {fileID: -157968447316261398, guid: 3c9dfed193d0fe74f8b39ea594f1c647, type: 3}
@@ -205,7 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 6
+    VectorObservationSize: 9
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -234,11 +237,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Record: 1
+  Record: 0
   NumStepsToRecord: 0
   DemonstrationName: MarioDemo
   DemonstrationDirectory: 
---- !u!114 &8415403693537750534
+--- !u!114 &8839030247972717459
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,51 +250,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 481021467160599391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f67c7e722ba14acd9153bb4488bff6e4, type: 3}
+  m_Script: {fileID: 11500000, guid: 282f342c2ab144bf38be65d4d0c4e07d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SensorName: RayPerceptionSensor
-  m_DetectableTags:
-  - Enemy
-  - Block
-  - Pipe
-  - Flag
-  - Checkpoint
-  m_RaysPerDirection: 50
-  m_MaxRayDegrees: 180
-  m_SphereCastRadius: 0.5
-  m_RayLength: 20
-  m_RayLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967283
-  m_ObservationStacks: 1
-  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
-  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!114 &1841550158760560648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 481021467160599391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f67c7e722ba14acd9153bb4488bff6e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SensorName: CheckpointRaySensor
-  m_DetectableTags:
-  - Checkpoint
-  m_RaysPerDirection: 12
-  m_MaxRayDegrees: 180
-  m_SphereCastRadius: 0.5
-  m_RayLength: 20
-  m_RayLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967291
-  m_ObservationStacks: 3
-  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
-  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
+  m_Camera: {fileID: 0}
+  m_SensorName: CameraSensor
+  m_Width: 84
+  m_Height: 84
+  m_Grayscale: 0
+  m_ObservationType: 0
+  m_ObservationStacks: 2
+  m_Compression: 1
 --- !u!1 &5124379530577450358
 GameObject:
   m_ObjectHideFlags: 0

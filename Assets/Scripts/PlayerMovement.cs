@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     public float jumpTime = 1f;
     public int jumpCount = 0;
+    public bool moved = false;
 
     public float gravity => (-2f * jumpHeight) / Mathf.Pow(jumpTime/2f, 2f);
     public float jumpForce => (2f * jumpHeight) / (jumpTime/2.5f);
@@ -81,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void DoMovement(int x, bool jump)
     {
+        moved = true;
 
         if (player.activeAnimator == null)
         {
@@ -139,19 +141,25 @@ public class PlayerMovement : MonoBehaviour
             vel.x = 0;
         }
 
-        if (ray && !ray.transform.CompareTag("Checkpoint") && !jumping)
+        if (ray && !ray.transform.CompareTag("Checkpoint") && !jumping && moved)
         {
             Debug.DrawLine(rb.transform.position, ray.transform.position, Color.red, Time.deltaTime);
             againstWall = true;
 
             vel.x = 0;
-            //player.AddReward(RewardSettings.WallPenalty);
+            player.AddReward(RewardSettings.WallPenalty);
         }
 
         if (input > 0 && transform.position.x > agent.farthestPoint.x)
         {
-            maxX = transform.position.x;
-        }
+            agent.farthestPoint = transform.position;
+            player.AddReward(RewardSettings.MoveRightReward);
+            //Debug.Log("[PlayerMovement] Moved right");
+        }/*
+        else if (input == -1)
+        {
+            player.AddReward(-RewardSettings.MoveRightReward/2);
+        }*/
     }
 
 
@@ -167,7 +175,7 @@ public class PlayerMovement : MonoBehaviour
         if(pos.x == leftEdge.x + .5f)
         {
             vel.x = 0;
-            //player.AddReward(RewardSettings.WallPenalty);
+            player.AddReward(RewardSettings.WallPenalty);
         }
         
         rb.MovePosition(pos);
@@ -182,8 +190,7 @@ public class PlayerMovement : MonoBehaviour
             vel.y = jumpForce;
             jumping = true;
             jumpCount++;
-            player.AddReward(RewardSettings.JumpPenalty);
-            
+            player.AddReward(RewardSettings.JumpPenalty); // Makes it so that the agent will only jump when necessary
 
             player.activeAnimator.SetBool("Jumping", true);
             //Debug.Log("Jump");
@@ -221,15 +228,6 @@ public class PlayerMovement : MonoBehaviour
                 vel.y = 0f;
             }
 
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Flag"))
-        {
-            player.AddReward(RewardSettings.WinReward);
-            player.EndEpisode();
         }
     }
 

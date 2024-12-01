@@ -5,9 +5,14 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class MarioAgent : Agent
 {
+    public GameManager gm;
+
+    public int par = 0;
+
     [SerializeField]
     private Transform flag;
     public CapsuleCollider2D capsuleCollider { get; private set; }
@@ -18,26 +23,28 @@ public class MarioAgent : Agent
     [SerializeField]
     private SpriteRenderer smallRenderer;
     private SpriteRenderer activeRenderer;
-
-    public bool trainingMode;
-    public int checkpointsHit = 0;
-
-    public int tick = 0;
-
-    private Vector2 startPos;
-
     public Animator bigAnimator, smallAnimator;
     [SerializeField]
     private Animator _activeAnimator;
+    private Vector2 startPos;
 
-    public Vector2 farthestPoint;
-    public int enemiesKilled = 0, powerups = 0;
-    public bool won = false, dead = false, still = false;
-    public float flagHeight = 0, cumulativeTimePenalty = 0;
+    public bool trainingMode;
+    public int checkpointsHit = 0;
     public HashSet<GameObject> enemies = new();
 
     [SerializeField]
     private Camera sideCamera;
+
+
+    [Header("Agent Stats")]
+    public int deaths = 0;
+    public int wins = 0;
+    public float cumulativeScore = 0;
+    public Vector2 farthestPoint;
+    public int enemiesKilled = 0, powerups = 0;
+    public bool won = false, dead = false, still = false;
+    public float flagHeight = 0, cumulativeTimePenalty = 0;
+    public bool training = false;
 
     public Animator activeAnimator
     {
@@ -64,9 +71,10 @@ public class MarioAgent : Agent
 
     private void Awake()
     {
+        gm = transform.parent.GetComponentInParent<GameManager>();
+
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         movement = GetComponent<PlayerMovement>();
-        GameManager.players.Add(gameObject);
         activeRenderer = smallRenderer;
         activeAnimator = smallAnimator;
 
@@ -74,17 +82,13 @@ public class MarioAgent : Agent
 
         startPos = transform.position;
 
-        DontDestroyOnLoad(gameObject.transform.parent.gameObject);
+        //DontDestroyOnLoad(gameObject.transform.parent.gameObject);
+        
     }
 
     private void FixedUpdate()
     {
-        //AddReward(RewardSettings.TimePenalty);
-        tick++;
-        if (still)
-        {
-            //AddReward(RewardSettings.StillPenalty);
-        }
+        cumulativeScore = GetCumulativeReward();
 
         cumulativeTimePenalty += RewardSettings.TimePenalty;
     }
@@ -108,44 +112,46 @@ public class MarioAgent : Agent
 
     public void Death()
     {
-
-        if(movement.jumpCount > 50)
-        {
-            AddReward(RewardSettings.JumpPenalty);
-        }
+        deaths++;
+        //if(movement.jumpCount > 50)
+        //{
+        //    AddReward(RewardSettings.JumpPenalty * (movement.jumpCount - 50));
+        //}
 
         AddReward(RewardSettings.DeathPenalty);
         movement.enabled = false;
         dead = true;
 
-        foreach (GameObject player in GameManager.players)
+        /*foreach (GameObject player in gm.players)
         {
             if (player.activeSelf && player.GetComponent<MarioAgent>().enabled && player != gameObject)
             {
                 gameObject.SetActive(false);
                 return;
             }
-        }
+        }*/
 
-        foreach (GameObject p in GameManager.powerUps)
+        foreach (GameObject p in gm.powerUps)
         {
             Destroy(p);
         }
 
-        MarioAgent bestPlayer = this;
-        foreach (GameObject player in GameManager.players)
+        /*MarioAgent bestPlayer = this;
+        foreach (GameObject player in gm.players)
         {
             if (player.GetComponent<MarioAgent>().GetCumulativeReward() > bestPlayer.GetCumulativeReward())
             {
                 bestPlayer = player.GetComponent<MarioAgent>();
             }
-        }
+        }*/
 
         StopAllCoroutines();
 
         //Debug.Log("Best player: " + bestPlayer.gameObject.transform.parent.name + " with " + bestPlayer.GetCumulativeReward());
-        GameManager.episode++;
-        Debug.Log("Episode " +  GameManager.episode);
+        Debug.Log("Episode " +  CompletedEpisodes);
+
+        Debug.Log(GetCumulativeReward());
+
         EndEpisode();
 
     }
@@ -227,35 +233,101 @@ public class MarioAgent : Agent
         sensor.AddObservation((Vector2)transform.position - startPos);
         sensor.AddObservation((Vector2)flag.position - startPos);
         sensor.AddObservation(GetComponent<Rigidbody2D>().velocity);
-        sensor.AddObservation(movement.onGround);
-
-        foreach (GameObject enemy in enemies)
-        {
-            sensor.AddObservation(enemy.transform.position);
-        }
+        sensor.AddObservation(starpower);
+        sensor.AddObservation(big);
+        sensor.AddObservation(checkpointsHit);
     }
 
     public override void OnEpisodeBegin()
     {
+        movement.moved = false;
+        gm.ResetEnv();
+        //Debug.Log(Academy.Instance.EnvironmentParameters.GetWithDefault("enabled_items", 0));
+
+        if (training)
+        {
+            par = Mathf.RoundToInt(Academy.Instance.EnvironmentParameters.GetWithDefault("enabled_items", 0));
+
+            switch (par)
+            {
+                case 0:
+                    break;
+                case 1:
+                    gm.EnableMysteryBlocks();
+                    break;
+                case 2:
+                    gm.EnableMysteryBlocks();
+                    gm.EnableRegularBlocks();
+                    break;
+                case 3:
+                    gm.EnableHardBlocks();
+                    gm.EnableMysteryBlocks();
+                    gm.EnableRegularBlocks();
+                    gm.EnablePipes();
+                    break;
+                case 4:
+                    gm.EnableHardBlocks();
+                    gm.EnableMysteryBlocks();
+                    gm.EnableRegularBlocks();
+                    gm.EnableEnemies();
+                    gm.EnablePipes();
+                    break;
+
+                case 5:
+                    gm.EnableHardBlocks();
+                    gm.EnableMysteryBlocks();
+                    gm.EnableRegularBlocks();
+                    gm.EnableEnemies();
+                    gm.EnableHoles();
+                    gm.EnablePipes();
+                    break;
+
+                case 6:
+                    gm.EnableHardBlocks();
+                    gm.EnableMysteryBlocks();
+                    gm.EnableRegularBlocks();
+                    gm.EnableEnemies();
+                    gm.EnableHoles();
+                    gm.EnablePipes();
+                    gm.GetRandomScene();
+                    break;
+
+                default:
+                    break;
+            }
+
+            Debug.Log("Param selection: " + par);
+        }
+        else
+        {
+            gm.EnableMysteryBlocks();
+            gm.EnableRegularBlocks();
+            gm.EnableEnemies();
+        }
 
         StopAllCoroutines();
         StartCoroutine(maxTime());
 
-        foreach (PipeCheckpoint p in GameManager.pipes)
+        foreach (PipeCheckpoint p in gm.pipes)
         {
             p.ResetHitList();
         }
 
-        foreach (Checkpoint c in GameManager.checkpoints)
+        foreach (Checkpoint c in gm.checkpoints)
         {
             c.ResetHitList();
         }
 
-        foreach (GameObject player in GameManager.players)
+        foreach(GameObject p in gm.powerUps)
+        {
+            Destroy(p);
+        }
+
+        /*foreach (GameObject player in gm.players)
         {
             player.SetActive(true);
             player.GetComponent<MarioAgent>().enabled = true;
-        }
+        }*/
 
         //sideCamera.gameObject.transform.position = transform.position;
 
@@ -279,9 +351,10 @@ public class MarioAgent : Agent
 
         }
         starpower = false;
-        activeRenderer.color = Color.white;
+        smallRenderer.color = Color.white;
+        bigRenderer.color = Color.white;
 
-        Debug.Log($"{transform.parent.name} Jump count: {movement.jumpCount}");
+        //Debug.Log($"{transform.parent.name} Jump count: {movement.jumpCount}");
 
         movement.jumpCount = 0;
         coins = 0;
@@ -292,41 +365,8 @@ public class MarioAgent : Agent
         won = false;
         farthestPoint = transform.position;
         flagHeight = 0;
-        tick = 0;
 
-        foreach (GameObject enemy in GameManager.enemies)
-        {
-            if (enemy == null) { continue; }
-
-            enemy.SetActive(false);
-            enemy.SetActive(true);
-
-            if (enemy.TryGetComponent(out Koopa koopa))
-            {
-                enemy.transform.position = koopa.startPos;
-            }
-            else if (enemy.TryGetComponent(out Goomba goomba))
-            {
-                enemy.transform.position = goomba.startPos;
-            }
-
-            if (TryGetComponent(out CircleCollider2D col))
-            {
-                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), col, false);
-            }
-        }
-
-        enemies.Clear();
-        enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
-
-        foreach (GameObject block in GameManager.blocks)
-        {
-            if (block.TryGetComponent(out BlockHit blockHit))
-            {
-                blockHit.playersWhoHit.Clear();
-            }
-
-        }
+        SetReward(0);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)

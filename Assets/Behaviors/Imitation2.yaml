@@ -2,32 +2,32 @@ behaviors:
   MarioAgent:
     trainer_type: ppo
     hyperparameters:
-      batch_size: 32
-      buffer_size: 2048
+      batch_size: 64
+      buffer_size: 8192
       learning_rate: 0.0003
       beta: 0.005
-      epsilon: 0.1
-      lambd: 0.95
+      epsilon: 0.3
+      lambd: 0.99
       num_epoch: 3
       learning_rate_schedule: linear
     network_settings:
-      normalize: true
-      hidden_units: 128
+      normalize: false
+      hidden_units: 256
       num_layers: 2
     reward_signals:
       extrinsic:
-        gamma: 0.995
-        strength: 0.4 # Increased reward strength to increase reinforcement learning
+        gamma: 0.99
+        strength: 1
       gail:
-        gamma: 0.85
-        strength: .3 # Increased gail strength to increase curiosity
+        # gamma: 0.9
+        strength: .4 # Decreased gail strength to encourage reinforcment
         demo_path: Assets/Demonstrations/MarioDemo.demo
     behavioral_cloning:
-      gamma: 0.99
-      strength: .5 # Decreased behavr_cloning strength
+      # gamma: 0.99
+      strength: 0.4 # Decreased BC strength to encourage reinforcement
       demo_path: Assets/Demonstrations/MarioDemo.demo
     keep_checkpoints: 5
-    max_steps: 250000
+    max_steps: 2500000
     time_horizon: 64
     summary_freq: 20000
     checkpoint_interval: 50000

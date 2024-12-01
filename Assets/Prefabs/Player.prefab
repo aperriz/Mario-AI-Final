@@ -263,10 +263,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 5746899244029580273, guid: d83a5e7863a8afc4faee91819fff1fa7, type: 3}
-      propertyPath: Record
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8415403693537750534, guid: d83a5e7863a8afc4faee91819fff1fa7, type: 3}
       propertyPath: m_DetectableTags.Array.data[5]
       value: Ground
@@ -302,9 +298,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 481021467160599391, guid: d83a5e7863a8afc4faee91819fff1fa7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7484065083768346718}
-    - targetCorrespondingSourceObject: {fileID: 481021467160599391, guid: d83a5e7863a8afc4faee91819fff1fa7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4183555386807040318}
     - targetCorrespondingSourceObject: {fileID: 8848714606009338136, guid: d83a5e7863a8afc4faee91819fff1fa7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4466198576899591549}
@@ -399,28 +392,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
---- !u!114 &4183555386807040318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6958617248874833587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f67c7e722ba14acd9153bb4488bff6e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SensorName: BlockRaySensor
-  m_DetectableTags:
-  - Block
-  m_RaysPerDirection: 50
-  m_MaxRayDegrees: 180
-  m_SphereCastRadius: 0.5
-  m_RayLength: 20
-  m_RayLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967291
-  m_ObservationStacks: 3
-  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
-  rayMissColor: {r: 1, g: 1, b: 1, a: 1}

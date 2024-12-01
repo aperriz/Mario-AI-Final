@@ -6,11 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/InitialScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
     path: Assets/Scenes/FinalLevel.unity
     guid: 072d88ee922e970459d2b167ca34a58c
+  - enabled: 1
+    path: Assets/Scenes/FinalLevelShort.unity
+    guid: 154c16190314aa04d951916f3f472059
+  - enabled: 1
+    path: Assets/Scenes/FinalLevelVeryShort.unity
+    guid: 0b3eb1e9910e3694e870ee68b03a94e6
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 40e2403b3cb613547ae096e30c803532, type: 2}
     com.unity.ml-agents.settings: {fileID: 11400000, guid: d58a4ef5804d878488c9264b7e979ff6, type: 2}

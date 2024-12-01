@@ -10,6 +10,7 @@ public class Goomba : MonoBehaviour
     public Vector2 startPos;
     public Vector2 starDir;
     public HashSet<Collider2D> ignoredObjects = new();
+    GameManager gm;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -25,17 +26,11 @@ public class Goomba : MonoBehaviour
                 player.AddReward(RewardSettings.EnemyHitReward);
             }
 
-            if(ignoredObjects.Count == GameManager.players.Count)
-            {
-                gameObject.SetActive(false);
-                return;
-            }
-
             Collider2D collider = collision.gameObject.GetComponent<Collider2D>();
 
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collider);
             player.enemies.Remove(this.gameObject);
-            ignoredObjects.Append(collider);
+            Hit();
         }
         /*else if (collision.gameObject.layer == LayerMask.GetMask("Shell"))
         {
@@ -59,13 +54,15 @@ public class Goomba : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.enemies.Add(gameObject);
+        gm = transform.parent.GetComponentInParent<GameManager>();
+        gm.enemies.Add(gameObject);
         startPos = transform.position;
         
     }
 
     private void OnEnable()
     {
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         foreach (Collider2D c in ignoredObjects)
         {
             if(c != null)

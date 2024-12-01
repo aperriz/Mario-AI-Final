@@ -1,9 +1,12 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Koopa : MonoBehaviour
 {
+    GameManager gm;
     public Sprite shellSprite, standardSprite;
     public float shellSpeed = 12f;
 
@@ -122,13 +125,26 @@ public class Koopa : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.enemies.Add(gameObject);
+        gm = transform.parent.GetComponentInParent<GameManager>();
+        gm.enemies.Add(gameObject);
         startPos = transform.position;
         standardSprite = GetComponent<SpriteRenderer>().sprite;
     }
 
     private void OnEnable()
     {
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        shelled = false;
+        playerWhoPushed = null;
+        GetComponent<EntityMovement>().speed = 2f;
+        GetComponent<SpriteRenderer>().sprite = standardSprite;
+
+    }
+
+    private IEnumerator setVars()
+    {
+        yield return new WaitForSeconds(0.1f);
+
         shelled = false;
         GetComponent<Animator>().enabled = true;
         GetComponent<SpriteRenderer>().sprite = standardSprite;

@@ -13,19 +13,18 @@ public class FlagPole : MonoBehaviour
         if (other.CompareTag("Player") && other.TryGetComponent(out MarioAgent player))
         {
             player.won = true;
-            player.AddReward(RewardSettings.WinReward);
-            player.AddReward(other.transform.position.x - poleBottom.position.y);
+            player.wins++;
 
-            player.flagHeight = other.transform.position.x - poleBottom.position.y;
+            //player.AddReward((other.transform.position.y - poleBottom.position.y)/100);
 
-            if (player.movement.jumpCount > 50)
-            {
-                player.AddReward(RewardSettings.JumpPenalty);
-            }
+            //if (player.movement.jumpCount > 50)
+            //{
+            //    player.AddReward(RewardSettings.JumpPenalty * (player.movement.jumpCount - 50));
+            //}
 
             player.AddReward(RewardSettings.WinReward - player.cumulativeTimePenalty);
 
-            foreach (GameObject p in GameManager.players)
+            /*foreach (GameObject p in GameManager.players)
             {
                 if(p.TryGetComponent(out MarioAgent ma) && ma != player)
                 {
@@ -36,12 +35,13 @@ public class FlagPole : MonoBehaviour
                         return;
                     }
                 }
-            }
+            }*/
+
+            Debug.Log(player.GetCumulativeReward());
 
             player.StopAllCoroutines();
-            GameManager.episode++;
-            Debug.Log("Episode " + GameManager.episode);
             player.EndEpisode();
+            player.SetReward(0);
         }
     }
 
