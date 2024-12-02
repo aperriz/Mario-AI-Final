@@ -28,7 +28,6 @@ public class MarioAgent : Agent
     private Animator _activeAnimator;
     private Vector2 startPos;
 
-    public bool trainingMode;
     public int checkpointsHit = 0;
     public HashSet<GameObject> enemies = new();
 
@@ -112,6 +111,8 @@ public class MarioAgent : Agent
 
     public void Death()
     {
+
+
         deaths++;
         //if(movement.jumpCount > 50)
         //{
@@ -151,9 +152,9 @@ public class MarioAgent : Agent
         Debug.Log("Episode " +  CompletedEpisodes);
 
         Debug.Log(GetCumulativeReward());
-
-        EndEpisode();
-
+        
+        gm.GetRandomScene();
+        
     }
 
     public void Grow()
@@ -240,14 +241,15 @@ public class MarioAgent : Agent
 
     public override void OnEpisodeBegin()
     {
+        RewardSettings.loadingNewLevel = false;
         movement.moved = false;
-        gm.ResetEnv();
+        
         //Debug.Log(Academy.Instance.EnvironmentParameters.GetWithDefault("enabled_items", 0));
 
         if (training)
         {
             par = Mathf.RoundToInt(Academy.Instance.EnvironmentParameters.GetWithDefault("enabled_items", 0));
-
+            gm.ResetEnv();
             switch (par)
             {
                 case 0:
@@ -264,6 +266,7 @@ public class MarioAgent : Agent
                     gm.EnableMysteryBlocks();
                     gm.EnableRegularBlocks();
                     gm.EnablePipes();
+                    gm.EnableCheckpoints();
                     break;
                 case 4:
                     gm.EnableHardBlocks();
@@ -271,25 +274,17 @@ public class MarioAgent : Agent
                     gm.EnableRegularBlocks();
                     gm.EnableEnemies();
                     gm.EnablePipes();
+                    gm.EnableCheckpoints();
                     break;
 
-                case 5:
+                case >= 5:
                     gm.EnableHardBlocks();
                     gm.EnableMysteryBlocks();
                     gm.EnableRegularBlocks();
                     gm.EnableEnemies();
                     gm.EnableHoles();
                     gm.EnablePipes();
-                    break;
-
-                case 6:
-                    gm.EnableHardBlocks();
-                    gm.EnableMysteryBlocks();
-                    gm.EnableRegularBlocks();
-                    gm.EnableEnemies();
-                    gm.EnableHoles();
-                    gm.EnablePipes();
-                    gm.GetRandomScene();
+                    gm.EnableCheckpoints();
                     break;
 
                 default:

@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
 
         DisableMysteryBlocks();
         DisableRegularBlocks();
+        DisableCheckpoints();
     }
 
     public void DisableEnemies()
@@ -70,7 +71,7 @@ public class GameManager : MonoBehaviour
         {
             e.gameObject.SetActive(true);
         }
-        //Debug.Log("Enabled Enemies");
+        Debug.Log("Enabled Enemies");
     }
 
     public void DisableHole()
@@ -103,7 +104,7 @@ public class GameManager : MonoBehaviour
         {
             p.transform.parent.gameObject.SetActive(true);
         }
-        //Debug.Log("Enabled Pipes");
+        Debug.Log("Enabled Pipes");
     }
 
     public void DisableHardBlocks()
@@ -120,7 +121,7 @@ public class GameManager : MonoBehaviour
         {
             b.gameObject.SetActive(true);
         }
-        //Debug.Log("Enabled Hard Blocks");
+        Debug.Log("Enabled Hard Blocks");
 
     }
 
@@ -138,7 +139,7 @@ public class GameManager : MonoBehaviour
         {
             b.gameObject.SetActive(true);
         }
-        //Debug.Log("Enabled Regular Blocks");
+        Debug.Log("Enabled Regular Blocks");
     }
 
     public void DisableMysteryBlocks()
@@ -157,13 +158,29 @@ public class GameManager : MonoBehaviour
             b.GetComponent<BlockHit>().ResetBlock();
             //Debug.Log(b.gameObject.name);
         }
-        //Debug.Log("Enabled Mystery Blocks");
+        Debug.Log("Enabled Mystery Blocks");
+    }
+
+    public void DisableCheckpoints()
+    {
+        foreach(var c in checkpoints)
+        {
+            c.gameObject.SetActive(false);
+        }
+    }
+
+    public void EnableCheckpoints()
+    {
+        foreach(var c in checkpoints)
+        {
+            c.gameObject.SetActive(true);
+        }
+        Debug.Log("Enabled Checkpoints");
     }
 
     public void GetRandomScene()
     {
         Scene active = SceneManager.GetActiveScene();
-        SceneManager.UnloadSceneAsync(active);
-        SceneManager.LoadSceneAsync(Random.Range(0, sceneCount - 1));
+        SceneManager.LoadScene(Random.Range(0, sceneCount - 1));
     }
 }

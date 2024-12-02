@@ -23,4 +23,6 @@ public static class RewardSettings
     public static float TimePenalty = -0.00001f; // Per tick of the game, meant to increase speed of Mario 0.001
     public static float JumpPenalty = -0.0001f;  // If over 50 jumps, average needed is 20-30
     public static float RegularBlockPenalty = -0.00001f;
+
+    public static bool loadingNewLevel = false;
 }

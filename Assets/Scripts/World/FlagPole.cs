@@ -40,8 +40,9 @@ public class FlagPole : MonoBehaviour
             Debug.Log(player.GetCumulativeReward());
 
             player.StopAllCoroutines();
-            player.EndEpisode();
-            player.SetReward(0);
+
+            player.gm.GetRandomScene();
+            
         }
     }
 

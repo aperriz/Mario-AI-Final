@@ -1,0 +1,104 @@
+behaviors:
+  MarioAgent:
+    init_path: C:\Users\alecp\Unity Projects\Mario AI\results\curriculum1\MarioAgent\MarioAgent-499978.pt # temp resume from checkpoint
+    trainer_type: ppo
+    hyperparameters:
+      batch_size: 64
+      buffer_size: 8192
+      learning_rate: 0.0003
+      beta: 0.005
+      epsilon: 0.3
+      lambd: 0.99
+      num_epoch: 3
+      learning_rate_schedule: linear
+    network_settings:
+      normalize: true
+      hidden_units: 256
+      num_layers: 2
+      vis_encoder_type: simple
+    reward_signals:
+      extrinsic:
+        gamma: 0.995
+        strength: 1
+    keep_checkpoints: 20
+    max_steps: 5000000
+    time_horizon: 64
+    summary_freq: 20000
+    checkpoint_interval: 500000
+    threaded: true
+environment_parameters:
+  enabled_items:
+    curriculum:
+    - name: Lesson0 # This is the start of the second lesson
+      completion_criteria:
+        measure: reward
+        behavior: MarioAgent
+        signal_smoothing: true
+        min_lesson_length: 100
+        threshold: 1.0
+      value:
+        sampler_type: uniform
+        sampler_parameters:
+          min_value: 0.0
+          max_value: 1.0
+    - name: Lesson1
+      completion_criteria:
+        measure: reward
+        behavior: MarioAgent
+        signal_smoothing: true
+        min_lesson_length: 100
+        threshold: 1.1
+      value:
+        sampler_type: uniform
+        sampler_parameters:
+          min_value: 0.0
+          max_value: 2.0
+    - name: Lesson2
+      completion_criteria:
+        measure: reward
+        behavior: MarioAgent
+        signal_smoothing: true
+        min_lesson_length: 100
+        threshold: 1.2
+      value:
+        sampler_type: uniform
+        sampler_parameters:
+          min_value: 1.0
+          max_value: 3.0
+    - name: Lesson3
+      completion_criteria:
+        measure: reward
+        behavior: MarioAgent
+        signal_smoothing: true
+        min_lesson_length: 250
+        threshold: 1.1
+      value:
+        sampler_type: uniform
+        sampler_parameters:
+          min_value: 2.0
+          max_value: 5.0
+    - name: Lesson4
+      completion_criteria:
+        measure: reward
+        behavior: MarioAgent
+        signal_smoothing: true
+        min_lesson_length: 250
+        threshold: 1.3
+      value:
+        sampler_type: uniform
+        sampler_parameters:
+          min_value: 3.0
+          max_value: 5.0
+    - name: Lesson5
+      completion_criteria:
+        measure: reward
+        behavior: MarioAgent
+        signal_smoothing: true
+        min_lesson_length: 250
+        threshold: 1.4
+      value:
+        sampler_type: uniform
+        sampler_parameters:
+          min_value: 5.0
+          max_value: 5.0
+    #mlagents-learn Assets\Behaviors\Reinforcement.yaml --run-id=curriculum1 --resume
