@@ -125,8 +125,6 @@ public class Koopa : MonoBehaviour
 
     private void Awake()
     {
-        gm = transform.parent.GetComponentInParent<GameManager>();
-        gm.enemies.Add(gameObject);
         startPos = transform.position;
         standardSprite = GetComponent<SpriteRenderer>().sprite;
     }

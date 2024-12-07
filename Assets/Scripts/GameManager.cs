@@ -27,6 +27,16 @@ public class GameManager : MonoBehaviour
 
         //DontDestroyOnLoad(gameObject);
 
+        
+
+        //Debug.Log($"Mystery Blocks: {powerupBlocks.Count}");
+        //Debug.Log($"Regular Blocks: {regularBlocks.Count}");
+        //Debug.Log($"Hard Blocks: {hardBlocks.Count}");
+        //Debug.Log($"Pipes: {pipes.Count}");
+    }
+
+    public void SetupArrays()
+    {
         pipes.AddRange(FindObjectsOfType<PipeCheckpoint>());
         flag = GameObject.FindGameObjectWithTag("Flag");
         powerupBlocks.AddRange(GameObject.FindGameObjectsWithTag("PowerupBlock"));
@@ -34,11 +44,9 @@ public class GameManager : MonoBehaviour
         hardBlocks.AddRange(GameObject.FindGameObjectsWithTag("HardBlock"));
         checkpoints.AddRange(GameObject.FindObjectsOfType<Checkpoint>());
         holes.AddRange(GameObject.FindGameObjectsWithTag("Hole"));
+        enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
 
-        //Debug.Log($"Mystery Blocks: {powerupBlocks.Count}");
-        //Debug.Log($"Regular Blocks: {regularBlocks.Count}");
-        //Debug.Log($"Hard Blocks: {hardBlocks.Count}");
-        //Debug.Log($"Pipes: {pipes.Count}");
+        ResetEnv();
     }
 
     public void ResetEnv()
@@ -71,7 +79,7 @@ public class GameManager : MonoBehaviour
         {
             e.gameObject.SetActive(true);
         }
-        Debug.Log("Enabled Enemies");
+        //Debug.Log($"Enabled {enemies.Count} Enemies");
     }
 
     public void DisableHole()
@@ -88,6 +96,7 @@ public class GameManager : MonoBehaviour
         {
             h.gameObject.SetActive(false);
         }
+        //Debug.Log($"Enabled {holes.Count} holes");
     }
 
     public void DisablePipes()
@@ -104,7 +113,8 @@ public class GameManager : MonoBehaviour
         {
             p.transform.parent.gameObject.SetActive(true);
         }
-        Debug.Log("Enabled Pipes");
+        //Debug.Log($"Enabled {pipes.Count} Pipes");
+        
     }
 
     public void DisableHardBlocks()
@@ -121,7 +131,7 @@ public class GameManager : MonoBehaviour
         {
             b.gameObject.SetActive(true);
         }
-        Debug.Log("Enabled Hard Blocks");
+        //Debug.Log($"Enabled {hardBlocks.Count} Hard Blocks");
 
     }
 
@@ -139,7 +149,7 @@ public class GameManager : MonoBehaviour
         {
             b.gameObject.SetActive(true);
         }
-        Debug.Log("Enabled Regular Blocks");
+        //Debug.Log($"Enabled {regularBlocks.Count} Regular Blocks");
     }
 
     public void DisableMysteryBlocks()
@@ -158,7 +168,7 @@ public class GameManager : MonoBehaviour
             b.GetComponent<BlockHit>().ResetBlock();
             //Debug.Log(b.gameObject.name);
         }
-        Debug.Log("Enabled Mystery Blocks");
+        //Debug.Log($"Enabled {powerupBlocks.Count} Mystery Blocks");
     }
 
     public void DisableCheckpoints()
@@ -175,7 +185,7 @@ public class GameManager : MonoBehaviour
         {
             c.gameObject.SetActive(true);
         }
-        Debug.Log("Enabled Checkpoints");
+        //Debug.Log($"Enabled {checkpoints.Count} Checkpoints");
     }
 
     public void GetRandomScene()

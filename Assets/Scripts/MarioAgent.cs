@@ -152,8 +152,9 @@ public class MarioAgent : Agent
         Debug.Log("Episode " +  CompletedEpisodes);
 
         Debug.Log(GetCumulativeReward());
-        
-        gm.GetRandomScene();
+
+        //gm.GetRandomScene();
+        EndEpisode();
         
     }
 
@@ -243,13 +244,14 @@ public class MarioAgent : Agent
     {
         RewardSettings.loadingNewLevel = false;
         movement.moved = false;
+
+        gm.SetupArrays();
         
         //Debug.Log(Academy.Instance.EnvironmentParameters.GetWithDefault("enabled_items", 0));
 
         if (training)
         {
             par = Mathf.RoundToInt(Academy.Instance.EnvironmentParameters.GetWithDefault("enabled_items", 0));
-            gm.ResetEnv();
             switch (par)
             {
                 case 0:

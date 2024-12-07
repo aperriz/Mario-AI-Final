@@ -124,13 +124,14 @@ MonoBehaviour:
   flag: {fileID: 0}
   bigRenderer: {fileID: 1109544644287050182}
   smallRenderer: {fileID: 5824298929761322370}
-  trainingMode: 0
-  checkpointsHit: 0
-  tick: 0
-  cumulativeScore: 0
   bigAnimator: {fileID: 0}
   smallAnimator: {fileID: 0}
   _activeAnimator: {fileID: 0}
+  checkpointsHit: 0
+  sideCamera: {fileID: 0}
+  deaths: 0
+  wins: 0
+  cumulativeScore: 0
   farthestPoint: {x: 0, y: 0}
   enemiesKilled: 0
   powerups: 0
@@ -139,7 +140,7 @@ MonoBehaviour:
   still: 0
   flagHeight: 0
   cumulativeTimePenalty: 0
-  sideCamera: {fileID: 0}
+  training: 0
   coins: 0
 --- !u!114 &481021467160599388
 MonoBehaviour:
@@ -255,8 +256,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 0}
   m_SensorName: CameraSensor
-  m_Width: 84
-  m_Height: 84
+  m_Width: 120
+  m_Height: 120
   m_Grayscale: 0
   m_ObservationType: 0
   m_ObservationStacks: 2

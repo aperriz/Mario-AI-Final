@@ -1,6 +1,6 @@
 behaviors:
   MarioAgent:
-    init_path: C:\Users\alecp\Unity Projects\Mario AI\results\curriculum1\MarioAgent\MarioAgent-499978.pt # temp resume from checkpoint
+    init_path: C:\Users\alecp\Unity Projects\Mario AI\results\curriculumLargerCamera\MarioAgent\MarioAgent-2499974.pt # temp resume from checkpoint
     trainer_type: ppo
     hyperparameters:
       batch_size: 64
@@ -21,7 +21,7 @@ behaviors:
         gamma: 0.995
         strength: 1
     keep_checkpoints: 20
-    max_steps: 5000000
+    max_steps: 50000000
     time_horizon: 64
     summary_freq: 20000
     checkpoint_interval: 500000
@@ -47,7 +47,7 @@ environment_parameters:
         behavior: MarioAgent
         signal_smoothing: true
         min_lesson_length: 100
-        threshold: 1.1
+        threshold: 1
       value:
         sampler_type: uniform
         sampler_parameters:
@@ -59,7 +59,7 @@ environment_parameters:
         behavior: MarioAgent
         signal_smoothing: true
         min_lesson_length: 100
-        threshold: 1.2
+        threshold: 1.1
       value:
         sampler_type: uniform
         sampler_parameters:

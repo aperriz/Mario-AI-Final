@@ -41,7 +41,8 @@ public class FlagPole : MonoBehaviour
 
             player.StopAllCoroutines();
 
-            player.gm.GetRandomScene();
+            //player.gm.GetRandomScene();
+            player.EndEpisode();
             
         }
     }
