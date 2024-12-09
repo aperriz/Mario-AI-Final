@@ -24,13 +24,13 @@ public class Goomba : MonoBehaviour
             else if (player.starpower) 
             {
                 player.AddReward(RewardSettings.EnemyHitReward);
+                Hit();
+            }
+            else
+            {
+                Hit();
             }
 
-            Collider2D collider = collision.gameObject.GetComponent<Collider2D>();
-
-            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collider);
-            player.enemies.Remove(this.gameObject);
-            Hit();
         }
         /*else if (collision.gameObject.layer == LayerMask.GetMask("Shell"))
         {
@@ -52,23 +52,8 @@ public class Goomba : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void Awake()
-    {
-        startPos = transform.position;
-        
-    }
-
     private void OnEnable()
     {
-        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        foreach (Collider2D c in ignoredObjects)
-        {
-            if(c != null)
-            {
-                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), c, false);
-                ignoredObjects.Remove(c);
-            }
-            
-        }
+        transform.position = startPos;
     }
 }

@@ -246,6 +246,7 @@ public class MarioAgent : Agent
         movement.moved = false;
 
         gm.SetupArrays();
+        gm.ResetEnv();
         
         //Debug.Log(Academy.Instance.EnvironmentParameters.GetWithDefault("enabled_items", 0));
 
@@ -300,6 +301,10 @@ public class MarioAgent : Agent
             gm.EnableMysteryBlocks();
             gm.EnableRegularBlocks();
             gm.EnableEnemies();
+            gm.EnableHardBlocks();
+            gm.EnablePipes();
+            gm.EnableHoles();
+            gm.EnableCheckpoints();
         }
 
         StopAllCoroutines();
