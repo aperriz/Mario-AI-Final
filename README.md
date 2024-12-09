@@ -22,8 +22,13 @@ pip install protobuf==3.20.3 onnx
 
 Open Unity project (Unity version 2022.3.10f1)
 ----------------------------------------------
-Load scene at $(SourceDir)/Assets/scenes/FinalShortLevel
+Load scene at $(SourceDir)/Assets/scenes/FinalLevelShort
+![alt text](image-2.png)
 
+Before Training
+--------------
+Ensure that the "Mario" game object is in training mode, by finding it under Stage -> Player -> Mario, and enabling the "Training" checkbox in the inspector under "Mario Agent"
+![alt text](image-6.png)
 
 Reinforcement Learning
 ------------------------
@@ -58,7 +63,16 @@ Curriculum Learning
 Run the following command in the virtual environment <br>
 `mlagents-learn Assets\Behaviors\Curriculum.yaml --run-id=curriculum --force`<br>
 
-
+Completed AI
+--------------------
+In Unity, on the top left, expand Stage -> Player ->  and click "Mario", then scroll down to "Behavior Parameters" in the inspector<br>
+![alt text](image-1.png)
+Then, at the bottom of the screen, go to Assets/TrainedBehaviors and drag and drop "MarioAgentFail" or "MarioAgent3M" into the "Neural network" field of the inspector under "Behavior Parameters"
+![alt text](image.png)
+Finally, un-tick the checkbox labeled "Training" in the "Mario Agent" section of the "Mario" object
+![alt text](image-4.png)
+To undo this, simply click on dot next to the "Neural Network" field, and in the dropdown, press "None"
+![alt text](image-3.png)
 
 Visualizing Results
 --------------------
