@@ -53,12 +53,9 @@ public class GameManager : MonoBehaviour
     {
         DisableEnemies();
 
-        if (GameObject.FindFirstObjectByType<MarioAgent>().training)
-        {
-            DisableHole();
-            DisablePipes();
-            DisableHardBlocks();
-        }
+        DisableHole();
+        DisablePipes();
+        DisableHardBlocks();
 
         DisableMysteryBlocks();
         DisableRegularBlocks();
