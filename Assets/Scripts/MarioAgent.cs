@@ -111,55 +111,31 @@ public class MarioAgent : Agent
 
     public void Death()
     {
-
-
+        //Adds penalty and ends episode
         deaths++;
-        //if(movement.jumpCount > 50)
-        //{
-        //    AddReward(RewardSettings.JumpPenalty * (movement.jumpCount - 50));
-        //}
-
+        
         AddReward(RewardSettings.DeathPenalty);
         movement.enabled = false;
         dead = true;
-
-        /*foreach (GameObject player in gm.players)
-        {
-            if (player.activeSelf && player.GetComponent<MarioAgent>().enabled && player != gameObject)
-            {
-                gameObject.SetActive(false);
-                return;
-            }
-        }*/
 
         foreach (GameObject p in gm.powerUps)
         {
             Destroy(p);
         }
 
-        /*MarioAgent bestPlayer = this;
-        foreach (GameObject player in gm.players)
-        {
-            if (player.GetComponent<MarioAgent>().GetCumulativeReward() > bestPlayer.GetCumulativeReward())
-            {
-                bestPlayer = player.GetComponent<MarioAgent>();
-            }
-        }*/
-
         StopAllCoroutines();
 
-        //Debug.Log("Best player: " + bestPlayer.gameObject.transform.parent.name + " with " + bestPlayer.GetCumulativeReward());
         Debug.Log("Episode " +  CompletedEpisodes);
 
         Debug.Log(GetCumulativeReward());
 
-        //gm.GetRandomScene();
         EndEpisode();
         
     }
 
     public void Grow()
     {
+        // When Mario picks up a mushroom
         smallRenderer.enabled = false;
         bigRenderer.enabled = true;
         activeRenderer = bigRenderer;
@@ -171,6 +147,8 @@ public class MarioAgent : Agent
 
     public void Shrink()
     {
+        // When Mario gets hit while big
+
         smallRenderer.enabled = true;
         bigRenderer.enabled = false;
         activeRenderer = smallRenderer;
@@ -181,6 +159,7 @@ public class MarioAgent : Agent
 
     public void Starpower()
     {
+        // On mario collecting stars
         /*AddReward(RewardSettings.StarPowerReward);*/
         StartCoroutine(StarpowerBuff());
     }
@@ -308,6 +287,8 @@ public class MarioAgent : Agent
         }
 
         StopAllCoroutines();
+
+        // 180 seconds max episode length
         StartCoroutine(maxTime());
 
         foreach (PipeCheckpoint p in gm.pipes)
@@ -325,14 +306,7 @@ public class MarioAgent : Agent
             Destroy(p);
         }
 
-        /*foreach (GameObject player in gm.players)
-        {
-            player.SetActive(true);
-            player.GetComponent<MarioAgent>().enabled = true;
-        }*/
-
-        //sideCamera.gameObject.transform.position = transform.position;
-
+        // Resets variables
         movement.m_Camera.transform.position = new Vector3(11.5f, 6.5f, -10);
         transform.localPosition = new Vector3(2, 2, -1);
         movement.vel = Vector2.zero;

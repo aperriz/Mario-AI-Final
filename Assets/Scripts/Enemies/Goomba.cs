@@ -32,12 +32,6 @@ public class Goomba : MonoBehaviour
             }
 
         }
-        /*else if (collision.gameObject.layer == LayerMask.GetMask("Shell"))
-        {
-            Hit();
-
-            
-        }*/
            
     }
 

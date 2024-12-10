@@ -12,36 +12,16 @@ public class FlagPole : MonoBehaviour
     {
         if (other.CompareTag("Player") && other.TryGetComponent(out MarioAgent player))
         {
+            //Adds win reward
             player.won = true;
             player.wins++;
 
-            //player.AddReward((other.transform.position.y - poleBottom.position.y)/100);
-
-            //if (player.movement.jumpCount > 50)
-            //{
-            //    player.AddReward(RewardSettings.JumpPenalty * (player.movement.jumpCount - 50));
-            //}
-
             player.AddReward(RewardSettings.WinReward - player.cumulativeTimePenalty);
-
-            /*foreach (GameObject p in GameManager.players)
-            {
-                if(p.TryGetComponent(out MarioAgent ma) && ma != player)
-                {
-                    if(ma.enabled)
-                    {
-                        ma.StopAllCoroutines();
-                        player.enabled = false;
-                        return;
-                    }
-                }
-            }*/
 
             Debug.Log(player.GetCumulativeReward());
 
             player.StopAllCoroutines();
 
-            //player.gm.GetRandomScene();
             player.EndEpisode();
             
         }

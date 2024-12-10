@@ -41,10 +41,6 @@ public class Koopa : MonoBehaviour
                 player.Hit();
             }
         }
-        /*else if (collision.gameObject.layer == LayerMask.GetMask("Shell") && collision.gameObject.TryGetComponent(out Koopa k))
-        {
-            Hit(k.playerWhoPushed);
-        }*/
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

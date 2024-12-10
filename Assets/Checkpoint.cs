@@ -12,6 +12,7 @@ public class Checkpoint : MonoBehaviour
         {
             if (!playersWhoHit.Contains(player))
             {
+                //Adds checkpoint reward
                 player.checkpointsHit++;
                 player.AddReward(RewardSettings.CheckpointReward - player.cumulativeTimePenalty);
                 player.cumulativeTimePenalty = 0;

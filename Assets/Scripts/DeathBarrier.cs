@@ -8,6 +8,7 @@ public class DeathBarrier : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //Kills anything that touches the barrier
         if (collision.gameObject.TryGetComponent(out MarioAgent agent))
         {
             agent.Death();

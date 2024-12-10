@@ -181,6 +181,7 @@ public class GameManager : MonoBehaviour
         foreach(var c in checkpoints)
         {
             c.gameObject.SetActive(true);
+            c.ResetHitList();
         }
         //Debug.Log($"Enabled {checkpoints.Count} Checkpoints");
     }

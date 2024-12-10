@@ -39,6 +39,8 @@ public class BlockHit : MonoBehaviour
     {
         MarioAgent ma = player.GetComponent<MarioAgent>();
 
+        //Adds reward if player hits a block that has an item, and is not already hit
+
         if (item != null)
         {
             GameObject itemObject = Instantiate(item, transform.position, Quaternion.identity);

@@ -12,6 +12,7 @@ public class PipeCheckpoint : MonoBehaviour
         {
             if (!playersWhoHit.Contains(player))
             {
+                //Adds checkpoint reward
                 player.checkpointsHit++;
                 player.AddReward(RewardSettings.CheckpointReward);
                 playersWhoHit.Add(player);
@@ -23,4 +24,10 @@ public class PipeCheckpoint : MonoBehaviour
     {
         playersWhoHit.Clear();
     }
+
+    public void OnEnable()
+    {
+        ResetHitList();
+    }
+
 }
