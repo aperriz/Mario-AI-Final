@@ -11,7 +11,7 @@ Commands to run in project directory:
 
 Activate the virtual environment:<br>
 Windows:&emsp; `venv\Scripts\activate`<br>
-&emsp;&ensp;&nbsp;Linux:&nbsp;&emsp;`./venv/Scripts/activate`
+&emsp;&ensp;&nbsp;Linux:&nbsp;&emsp;`source ./venv/bin/activate`
 
 ```
 python -m pip install --upgrade pip
@@ -66,13 +66,13 @@ Run the following command in the virtual environment <br>
 Completed AI
 --------------------
 In Unity, on the top left, expand Stage -> Player ->  and click "Mario", then scroll down to "Behavior Parameters" in the inspector<br>
-![alt text](image-1.png)
-Then, at the bottom of the screen, go to Assets/TrainedBehaviors and drag and drop "MarioAgentFail" or "MarioAgent3M" into the "Neural network" field of the inspector under "Behavior Parameters"
-![alt text](image.png)
-Finally, un-tick the checkbox labeled "Training" in the "Mario Agent" section of the "Mario" object
-![alt text](image-4.png)
-To undo this, simply click on dot next to the "Neural Network" field, and in the dropdown, press "None"
-![alt text](image-3.png)
+![alt text](image-1.png)<br>
+Then, at the bottom of the screen, go to Assets/TrainedBehaviors and drag and drop "MarioAgentFail" or "MarioAgent3M" into the "Neural network" field of the inspector under "Behavior Parameters"<br>
+![alt text](image.png)<br>
+Finally, un-tick the checkbox labeled "Training" in the "Mario Agent" section of the "Mario" object<br>
+![alt text](image-4.png)<br>
+To undo this, simply click on dot next to the "Neural Network" field, and in the dropdown, press "None"<br>
+![alt text](image-3.png)<br>
 
 Visualizing Results
 --------------------
